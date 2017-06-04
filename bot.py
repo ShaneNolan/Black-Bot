@@ -99,7 +99,7 @@ async def on_message(message):
                 config = await utilities.loadJSON(location)
 
                 #Change DonateRole.
-                if 'donaterole' in message.content:
+                if 'donatorrole' in message.content:
                     config["donateRole"] = message.content[11:]
                     await utilities.overwriteJSON(location, config)
                 #Change DonateAmount.
