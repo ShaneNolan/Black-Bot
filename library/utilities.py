@@ -1,4 +1,7 @@
 import json
+import discord
+import os
+import csv
 
 #Check if the user is an administrator.
 async def checkAdmin(person):
@@ -8,8 +11,8 @@ async def checkAdmin(person):
     return False
 
 #Checks if a specific user has a role.
-async def CheckRole(person, role):
-    if role == "everyone":
+async def checkRole(person, role):
+    if role == "none":
         return True
 
     for r in person.roles:
@@ -18,8 +21,40 @@ async def CheckRole(person, role):
     return False
 
 #Load a JSON file.
-async def LoadJson(location):
+async def loadJSON(location):
     with open(location, 'rt') as f:
         configData = json.load(f)
     f.close()
     return configData
+
+#Overwrite a JSON file.
+async def overwriteJSON(location, newConfig):
+    os.remove(location)
+    with open(location, 'w') as f:
+        json.dump(newConfig, f)
+    f.close()
+
+#Load a CSV file.
+async def loadCSV(location):
+    with open(location, 'rt') as f:
+        donateData = csv.reader(f)
+        return reversed(list(donateData))
+
+#Get a users specific role.
+async def getRole(client, message, roleName):
+    for server in client.servers:
+        if server == message.server:
+            for role in server.roles:
+                if roleName == role.name:
+                    return role
+    return 0
+
+#Create a role.
+async def createRole(client, message, rolename):
+    for server in client.servers:
+        if server == message.server:
+            numRoles = len(server.roles)
+
+    newRole = await client.create_role(message.server, permissions=discord.Permissions.none(), name=rolename)
+    await client.move_role(message.server, newRole, numRoles)
+    return newRole
