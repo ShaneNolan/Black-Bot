@@ -65,9 +65,9 @@ async def on_message(message):
             elif message.content == 'help':
                 header = "```diff\n- Black Bot - Commands/Help -```\n"
                 #Additional Admin Commands
-                adminsc = """**Set Features:** `set donaterole rolename` `set donateamount amount` `set customcolourrole rolename`\n"""
-                commands = """**Donate:** `!donate`\n**Custom Colour:** `!colour #hexcode`\n**Developer:** `!developer`\n\n
-                ```html\nBlack Bot Version: Alpha 0.05.\nReport any bugs to: dildo#9822.```"""
+                adminsc = """**Set Features:** `set donatorole rolename` `set donateamount amount` `set customcolourrole rolename`\n"""
+                commands = """**Donate:** `!donate`\n**Custom Colour:** `!colour #hexcode`\n**Music Player:** `!play songname`\n**Developer:** `!developer`\n\n
+                ```html\nBlack Bot Version: Alpha 8.0\nReport any bugs to: dildo#9822.```"""
 
                 if await utilities.checkAdmin(message.author):
                     await client.send_message(message.author, header + adminsc + commands)
