@@ -3,7 +3,7 @@ A utility Discord bot.
 Current Version: Alpha 8.0
 
 ## Features
-* Multiserver compactable.
+* Multiserver compatible.
 * Unique configuration for each server.
 * Bitcoin donation system. *(Configurable - Donator role & Donator amount)*
 * Custom colours. *(Configurable - Role required to change colour)*
