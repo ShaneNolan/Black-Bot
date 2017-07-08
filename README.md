@@ -2,6 +2,8 @@
 A utility Discord bot.
 Current Version: Alpha 8.0
 
+[Invite me :)](https://discordapp.com/oauth2/authorize?client_id=314036926682234880&scope=bot&permissions=8)
+
 ## Features
 * Multiserver compatible.
 * Unique configuration for each server.
