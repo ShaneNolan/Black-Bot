@@ -15,14 +15,6 @@ prefix = '!'
 
 @client.event
 async def on_ready():
-    ytCache = "cache/"
-    if os.path.exists(ytCache):
-        os.remove(ytCache)
-        print("Cache folder deleted.")
-    with open(ytCache, 'w') as f:
-        print("Created cache folder.")
-    f.close()
-
     print('Logged in as: %s#%s' % (client.user.name, client.user.id))
 
 @client.event
@@ -66,7 +58,7 @@ async def on_message(message):
                 header = "```diff\n- Black Bot - Commands/Help -```\n"
                 #Additional Admin Commands
                 adminsc = """**Set Features:** `set donatorole rolename` `set donateamount amount` `set customcolourrole rolename`\n"""
-                commands = """**Donate:** `!donate`\n**Custom Colour:** `!colour #hexcode`\n**Music Player:** `!play songname`\n**Developer:** `!developer`\n\n
+                commands = """**Donate:** `!donate`\n**Custom Colour:** `!colour #hexcode`\n**Music Player:** `!play songname`\n**Developer:** `!developer`\n
                 ```html\nBlack Bot Version: Alpha 8.0\nReport any bugs to: dildo#9822.```"""
 
                 if await utilities.checkAdmin(message.author):
