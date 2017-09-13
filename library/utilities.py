@@ -12,7 +12,7 @@ async def checkAdmin(person):
 
 #Checks if a specific user has a role.
 async def checkRole(person, role):
-    if role == "none":
+    if role == "everyone":
         return True
 
     for r in person.roles:

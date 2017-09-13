@@ -6,17 +6,11 @@ from library import utilities
 #Custom Colour Feature
 async def CustomColour(client, message):
     config = "database/servers/" + str(message.server.id) + ".json"
-    #Check if new server, if so create their config.
-    if not os.path.exists(config):
-        with open(config, 'w') as f:
-            json.dump(dataFirstTime, f)
-            print("Created default server configuration:%s." % (config))
-        f.close()
 
     #Get server config data.
     configData = await utilities.loadJSON(config)
 
-    if await utilities.checkRole(message.author, config["customColourRole"]):
+    if await utilities.checkRole(message.author, configData["customColourRole"]):
         #Check if the user has a custom colour role.
         rolename = str(message.author)[:-5]
         role = await utilities.getRole(client, message, rolename)
