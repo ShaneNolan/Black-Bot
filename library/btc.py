@@ -1,4 +1,4 @@
-#Credit: https://github.com/Daunus/bitcoin-address-generation-tool
+#https://github.com/Daunus/bitcoin-address-generation-tool
 
 import argparse
 import os
@@ -6,8 +6,19 @@ import binascii
 import ecdsa
 import hashlib
 
+b58_alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
 
+# Lets now generate key
+key_length = 256
 
+#type of Bitcoin address 0x00 is P2PKH mainnet (string type)
+version_byte = '00'
+
+#wif_version_byte byte '80' if mainnet, 'ef' if if testnet,
+wif_version_byte = '80'
+
+#type_pub is '01' if key corresponds to commpressed public key, empty otherwise
+type_pub = ''
 
 # Range of valid private keys is governed by the secp256k1 ECDSA standard used by Bitcoin: any 256-bit number from 0x1 to 0xFFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFE BAAE DCE6 AF48 A03B BFD2 5E8C D036 4140 is a valid private key.
 def generateKey(bits=256):
@@ -23,7 +34,6 @@ def privateKeyToPublicKey(private_key):
     private_key = binascii.unhexlify(private_key)
     sk = ecdsa.SigningKey.from_string(private_key, curve=ecdsa.SECP256k1)
     return ('04' + binascii.hexlify(sk.verifying_key.to_string()).decode('utf-8'))
-
 
 #IMPORTANT any implmentation must make sure 00 bytes on front are not clipped here when encoding or getting hash!
 #IMPORTANT Hash result should be bigEndian?
@@ -79,27 +89,3 @@ def countLeadingZeroBytes(astring):
         count += 1
 
     return (count//2)
-
-#----------------------
-#----------------------
-
-
-
-
-#---------------------
-#---------------------
-
-b58_alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
-
-#
-# Lets now generate key
-key_length = 256
-
-#type of Bitcoin address 0x00 is P2PKH mainnet (string type)
-version_byte = '00'
-
-#wif_version_byte byte '80' if mainnet, 'ef' if if testnet,
-wif_version_byte = '80'
-
-#type_pub is '01' if key corresponds to commpressed public key, empty otherwise
-type_pub = ''

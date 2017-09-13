@@ -12,6 +12,7 @@ client = discord.Client()
 
 #Custom Prefix e.g. !help
 prefix = '!'
+MPlayer = music.Music(client)
 
 @client.event
 async def on_ready():
@@ -45,20 +46,17 @@ async def on_message(message):
     if(len(message.content) > 2):
         #Check to see if its a bot request.
         if message.content[0] == prefix:
+            global MPlayer
             await client.delete_message(message)
             message.content = message.content[len(prefix):]
             print("Request received by: %s on server: %s(%s) requesting: %s." % (message.author, message.server, message.server.id, message.content))
 
             #Display developer.
-            if message.content == 'developer':
-                await client.send_message(message.channel, 'Developed by dildo#9822')
-
-            #Help - Commands
-            elif message.content == 'help':
+            if message.content == 'help':
                 header = "```diff\n- Black Bot - Commands/Help -```\n"
                 #Additional Admin Commands
                 adminsc = """**Set Features:** `set donatorole rolename` `set donateamount amount` `set customcolourrole rolename`\n"""
-                commands = """**Donate:** `!donate`\n**Custom Colour:** `!colour #hexcode`\n**Music Player:** `!play songname`\n**Developer:** `!developer`\n
+                commands = """**Donate:** `!donate`\n**Custom Colour:** `!colour #hexcode`\n**Music Player:** `!play songname` `!pause` `!resume` `!skip` `!playing`
                 ```html\nBlack Bot Version: Alpha 8.0\nReport any bugs to: dildo#9822.```"""
 
                 if await utilities.checkAdmin(message.author):
@@ -79,9 +77,19 @@ async def on_message(message):
                 else:
                     await donation.Donate(client, message)
 
+            #Music Player Options.
             elif 'play' in message.content:
-                MPlayer = music.MusicPlayer(client, message)
-                await MPlayer.play(client, message)
+                await MPlayer.play(message, song = message.content)
+            elif message.content == 'pause':
+                await MPlayer.pause(message)
+            elif message.content == 'resume':
+                await MPlayer.resume(message)
+            elif message.content == 'stop':
+                await MPlayer.stop(message)
+            elif message.content == 'skip':
+                await MPlayer.skip(message)
+            elif message.content == 'playing':
+                await MPlayer.playing(message)
 
 
             #Server Config Modifications || Set Commands
