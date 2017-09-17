@@ -41,20 +41,8 @@ async def loadCSV(location):
         return reversed(list(donateData))
 
 #Get a users specific role.
-async def getRole(client, message, roleName):
-    for server in client.servers:
-        if server == message.server:
-            for role in server.roles:
-                if roleName == role.name:
-                    return role
+async def getRole(message, roleName):
+    for role in message.server.roles:
+        if roleName == role.name:
+            return role
     return 0
-
-#Create a role.
-async def createRole(client, message, rolename):
-    for server in client.servers:
-        if server == message.server:
-            numRoles = len(server.roles)
-
-    newRole = await client.create_role(message.server, permissions=discord.Permissions.none(), name=rolename)
-    await client.move_role(message.server, newRole, numRoles)
-    return newRole

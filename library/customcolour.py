@@ -11,19 +11,18 @@ async def CustomColour(client, message):
     configData = await utilities.loadJSON(config)
 
     if await utilities.checkRole(message.author, configData["customColourRole"]):
-        #Check if the user has a custom colour role.
-        rolename = str(message.author)[:-5]
-        role = await utilities.getRole(client, message, rolename)
+        try:
+            #If they dont have a role for a custom colour create one.
+            if await utilities.getRole(message, str(message.author)) is None:
+                role = await client.create_role(message.server, permissions=discord.Permissions.none(), name=str(message.author))
+                await client.move_role(message.server, role, len(message.server.roles)-2)
+                await client.add_roles(message.author, role)
 
-        #If they dont have a role for a custom colour create one.
-        if role is None:
-            newRole = await utilities.createRole(client, message, rolename)
-            await client.add_roles(member, newRole)
-            role = await utilities.getRole(client, message, rolename)
-
-        #Update/Set their custom colour.
-        colour = discord.Colour(int(message.content[message.content.index('#')+1:], 16))
-        await client.edit_role(message.server, role=role, colour=colour)
-        await client.send_message(message.channel, "%s has changed their colour! :eggplant:" % (message.author.mention))
+            #Update/Set their custom colour.
+            colour = discord.Colour(int(message.content[message.content.index('#')+1:], 16))
+            await client.edit_role(message.server, role=await utilities.getRole(message, str(message.author)), colour=colour)
+            await client.send_message(message.channel, "%s has changed their colour! :eggplant:" % (message.author.mention))
+        except discord.errors.Forbidden:
+            await client.send_message(message.channel, "I don't have sufficient privileges for this request, move my role to the top of the role list! :nerd:")
     else:
         await client.send_message(message.author, "You do not have permission to set a custom colour. You need to be of rank \"%s\" to have a custom colour. :frowning:" % (configData["customColourRole"]))

@@ -81,7 +81,7 @@ class Music:
     async def summon(self, message):
         summoned_channel = message.author.voice_channel
         if summoned_channel is None:
-            await self.bot.say('You are not in a voice channel.')
+            await self.bot.send_message(message.channel, 'You are not in a voice channel.')
             return False
 
         state = self.get_voice_state(message)
@@ -96,6 +96,11 @@ class Music:
         state = self.get_voice_state(message)
         opts = {
             'default_search': 'auto',
+            'extractaudio' : True,
+            'format' : 'bestaudio/best',
+            'audioformat' : 'mp3',
+            'ignoreerrors': True,
+            'no_warnings': True,
             'quiet': True,
         }
 
